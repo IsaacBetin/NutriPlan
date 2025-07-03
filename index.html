@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriPlan - Alimentação Saudável e Prática</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Onboarding Modal -->
+    <div id="onboarding-modal" class="modal active">
+        <div class="modal-content">
+            <div class="onboarding-step" id="step-1">
+                <div class="step-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h2>Bem-vinda ao NutriPlan!</h2>
+                <p>Transforme sua alimentação com cardápios saudáveis e práticos, perfeitos para quem trabalha em home office.</p>
+                <button class="btn-primary" onclick="nextStep()">Começar</button>
+            </div>
+            
+            <div class="onboarding-step" id="step-2">
+                <div class="step-icon">
+                    <i class="fas fa-calendar-week"></i>
+                </div>
+                <h2>Cardápio Semanal</h2>
+                <p>Receba sugestões de refeições saudáveis que podem ser preparadas em até 20 minutos.</p>
+                <button class="btn-primary" onclick="nextStep()">Próximo</button>
+            </div>
+            
+            <div class="onboarding-step" id="step-3">
+                <div class="step-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h2>Lista de Compras Inteligente</h2>
+                <p>Sua lista de compras é gerada automaticamente com base no cardápio escolhido.</p>
+                <button class="btn-primary" onclick="nextStep()">Próximo</button>
+            </div>
+            
+            <div class="onboarding-step" id="step-4">
+                <div class="step-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h2>Receitas Guiadas</h2>
+                <p>Siga receitas com passo a passo simples e visual para facilitar o preparo.</p>
+                <button class="btn-primary" onclick="finishOnboarding()">Começar a usar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1><i class="fas fa-leaf"></i> NutriPlan</h1>
+                <div class="user-info">
+                    <span>Olá, Ana!</span>
+                    <div class="avatar">A</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-screen="home">
+                <i class="fas fa-home"></i>
+                <span>Início</span>
+            </button>
+            <button class="nav-item" data-screen="menu">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Cardápio</span>
+            </button>
+            <button class="nav-item" data-screen="shopping">
+                <i class="fas fa-shopping-list"></i>
+                <span>Compras</span>
+            </button>
+            <button class="nav-item" data-screen="recipes">
+                <i class="fas fa-book"></i>
+                <span>Receitas</span>
+            </button>
+        </nav>
+
+        <!-- Screens -->
+        <main class="main-content">
+            <!-- Home Screen -->
+            <div id="home-screen" class="screen active">
+                <div class="welcome-section">
+                    <h2>Sua semana alimentar</h2>
+                    <p>Domingo é dia de planejar! Vamos criar seu cardápio semanal?</p>
+                </div>
+                
+                <div class="quick-actions">
+                    <div class="action-card" onclick="showScreen('menu')">
+                        <i class="fas fa-plus-circle"></i>
+                        <h3>Gerar Cardápio</h3>
+                        <p>Crie um novo cardápio semanal</p>
+                    </div>
+                    
+                    <div class="action-card" onclick="showScreen('recipes')">
+                        <i class="fas fa-utensils"></i>
+                        <h3>Receita de Hoje</h3>
+                        <p>Veja o que preparar agora</p>
+                    </div>
+                </div>
+                
+                <div class="stats-section">
+                    <h3>Suas metas</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Tempo máximo</span>
+                            <strong>20 min</strong>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-heart"></i>
+                            <span>Refeições saudáveis</span>
+                            <strong>21/semana</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu Planning Screen -->
+            <div id="menu-screen" class="screen">
+                <div class="screen-header">
+                    <h2>Cardápio Semanal</h2>
+                    <button class="btn-secondary" onclick="generateMenu()">Gerar Novo</button>
+                </div>
+                
+                <div class="menu-preferences">
+                    <h3>Suas preferências</h3>
+                    <div class="preference-tags">
+                        <span class="tag active">Rápido (≤20min)</span>
+                        <span class="tag active">Saudável</span>
+                        <span class="tag">Vegetariano</span>
+                        <span class="tag">Low Carb</span>
+                    </div>
+                </div>
+                
+                <div id="weekly-menu" class="weekly-menu">
+                    <!-- Menu items will be generated here -->
+                </div>
+                
+                <button class="btn-primary full-width" onclick="generateShoppingList()">Gerar Lista de Compras</button>
+            </div>
+
+            <!-- Shopping List Screen -->
+            <div id="shopping-screen" class="screen">
+                <div class="screen-header">
+                    <h2>Lista de Compras</h2>
+                    <button class="btn-secondary" onclick="clearShoppingList()">Limpar</button>
+                </div>
+                
+                <div class="shopping-categories" id="shopping-list">
+                    <!-- Shopping list will be generated here -->
+                </div>
+                
+                <div class="shopping-summary">
+                    <p>Total estimado: <strong>R$ 85,00</strong></p>
+                    <button class="btn-primary full-width">Compartilhar Lista</button>
+                </div>
+            </div>
+
+            <!-- Recipes Screen -->
+            <div id="recipes-screen" class="screen">
+                <div class="screen-header">
+                    <h2>Receitas do Dia</h2>
+                    <select id="day-selector" onchange="loadDayRecipes()">
+                        <option value="segunda">Segunda-feira</option>
+                        <option value="terca">Terça-feira</option>
+                        <option value="quarta">Quarta-feira</option>
+                        <option value="quinta">Quinta-feira</option>
+                        <option value="sexta">Sexta-feira</option>
+                        <option value="sabado">Sábado</option>
+                        <option value="domingo">Domingo</option>
+                    </select>
+                </div>
+                
+                <div id="daily-recipes" class="daily-recipes">
+                    <!-- Daily recipes will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Recipe Detail Modal -->
+            <div id="recipe-modal" class="modal">
+                <div class="modal-content recipe-detail">
+                    <div class="modal-header">
+                        <h2 id="recipe-title"></h2>
+                        <button class="close-btn" onclick="closeRecipeModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="recipe-info">
+                        <div class="recipe-meta">
+                            <span><i class="fas fa-clock"></i> <span id="recipe-time"></span></span>
+                            <span><i class="fas fa-users"></i> <span id="recipe-servings"></span></span>
+                        </div>
+                        <div class="recipe-ingredients">
+                            <h3>Ingredientes</h3>
+                            <ul id="ingredients-list"></ul>
+                        </div>
+                        <div class="recipe-steps">
+                            <h3>Modo de Preparo</h3>
+                            <ol id="steps-list"></ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
